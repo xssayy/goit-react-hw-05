@@ -1,0 +1,15 @@
+.list {
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+}
+
+.listItem {
+  color: rgb(102, 102, 190);
+  text-decoration: none;
+}
+
+.listItem:hover {
+  text-decoration: underline;
+}

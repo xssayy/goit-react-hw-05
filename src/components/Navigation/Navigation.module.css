@@ -1,0 +1,19 @@
+.nav {
+  display: flex;
+  gap: 20px;
+  font-size: 16px;
+  padding: 10px;
+  text-transform: uppercase;
+  border: none;
+  background-color: rgb(238, 91, 91);
+}
+
+.navLink {
+  color: white;
+  border: none;
+  text-decoration: none;
+}
+
+.navLink:hover {
+  border-bottom: 1px solid white;
+}
