@@ -7,22 +7,15 @@ const MovieDetailsPage = () => {
   const location = useLocation();
   const { movieId } = useParams();
   const [MovieDetails, setMovieDetails] = useState({});
-  const [movieReviews, setMovieReviews] = useState({});
-  const [movieCast, setMovieCast] = useState({});
 
   useEffect(() => {
     const renderData = async () => {
       try {
         if (!movieId) return;
         const data = await fetchData(`movie/${movieId}`);
-        const castData = await fetchData(`movie/${movieId}/credits`);
-        setMovieCast(castData);
-        const reviewsData = await fetchData(`movie/${movieId}/reviews`);
-        setMovieReviews(reviewsData);
         const defaultImg =
           "<https://dl-media.viber.com/10/share/2/long/vibes/icon/image/0x0/95e0/5688fdffb84ff8bed4240bcf3ec5ac81ce591d9fa9558a3a968c630eaba195e0.jpg>";
         data.movieImage = data?.poster_path || defaultImg;
-
         setMovieDetails(data);
       } catch (error) {
         console.error("Error fetching movie details:", error);
@@ -31,10 +24,10 @@ const MovieDetailsPage = () => {
     renderData();
   }, [movieId]);
 
-  const { from } = location.state;
+  const goBackLink = location.state?.from || "/";
   return (
     <div>
-      <NavLink to={`${from.pathname}` + `${from.search}`}>
+      <NavLink to={`${goBackLink}`}>
         <button> Go back</button>
       </NavLink>
       <div className={style.container}>
@@ -61,22 +54,14 @@ const MovieDetailsPage = () => {
         <p>Additional information</p>
         <ul>
           <li>
-            {/* {movieCast?.cast.length > 0 && ( */}
-            <NavLink
-              to={`/movies/${movieId}/cast`}
-              className={style.listItem}
-              state={{ from: from, data: movieCast }}
-            >
+            <NavLink to={`/movies/${movieId}/cast`} className={style.listItem}>
               Cast
             </NavLink>
-            {/* )} */}
           </li>
           <li>
-            {/* {movieReviews?.results.length > 0 && ( */}
             <NavLink
               to={`/movies/${movieId}/reviews`}
               className={style.listItem}
-              state={{ from: from, data: movieReviews }}
             >
               Reviews
             </NavLink>

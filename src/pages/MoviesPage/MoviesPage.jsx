@@ -15,33 +15,27 @@ const MoviesPage = () => {
     if (!query) {
       return;
     }
-    if (movies.length !== 0) {
-      return;
-    }
+
     const onInit = async () => {
-      const response = await fetchData("search/movie", {
-        language: "en-US",
-        query,
-        include_adult: false,
-        page: 1,
-      });
-      setMovies(response.results);
+      try {
+        const response = await fetchData("search/movie", {
+          language: "en-US",
+          query,
+          include_adult: false,
+          page: 1,
+        });
+        setMovies(response.results);
+      } catch (error) {
+        console.log("Server error: ", error);
+      }
     };
     onInit();
-  }, [params, movies.length]);
+  }, [params]);
 
   const onSubmit = async (event) => {
     event.preventDefault();
     const form = event.target;
     const query = form.elements.search.value.toLowerCase().trim();
-    const response = await fetchData("search/movie", {
-      language: "en-US",
-      query,
-      include_adult: false,
-      page: 1,
-    });
-
-    setMovies(response.results);
     setSearchParams({ query });
     form.reset();
   };
