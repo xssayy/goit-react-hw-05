@@ -1,6 +1,6 @@
 import { NavLink, Outlet, useParams, useLocation } from "react-router-dom";
 import { fetchData } from "../../services/api";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import style from "./MovieDetailsPage.module.css";
 
 const MovieDetailsPage = () => {
@@ -24,10 +24,11 @@ const MovieDetailsPage = () => {
     renderData();
   }, [movieId]);
 
-  const goBackLink = location.state?.from || "/";
+  const goBackLink = useRef(location.state?.from || "/");
+
   return (
     <div>
-      <NavLink to={`${goBackLink}`}>
+      <NavLink to={goBackLink.current}>
         <button> Go back</button>
       </NavLink>
       <div className={style.container}>
